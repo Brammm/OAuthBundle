@@ -14,12 +14,12 @@ class ProvidersPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $taggedServiceIds         = $container->findTaggedServiceIds('brammm_oauth.provider');
-        $objectRendererDefinition = $container->getDefinition('brammm_oauth.oauth');
+        $taggedServiceIds = $container->findTaggedServiceIds('brammm_oauth.provider');
+        $service          = $container->getDefinition('brammm_oauth.oauth');
 
         foreach ($taggedServiceIds as $serviceId => $tags) {
             foreach ($tags as $tagAttributes) {
-                $objectRendererDefinition->addMethodCall('addProvider', [
+                $service->addMethodCall('addProvider', [
                     $tagAttributes['provider'],
                     new Reference($serviceId),
                 ]);
