@@ -1,0 +1,23 @@
+{
+    "name": "brammm/oauth-bundle",
+    "type": "symfony-bundle",
+    "description": "A Symfony2 bundle with some oauth stuff",
+    "keywords": ["oauth", "bundle", "symfony2"],
+    "homepage":    "https://github.com/Brammm/OAuthBundle",
+    "license":     "MIT",
+    "authors": [
+        {
+            "name": "Bram Van der Sype",
+            "homepage": "https://github.com/Brammm"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "~2.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "Brammm\\OAuthBundle": ""
+        }
+    },
+    "target-dir": "Brammm/OAuthBundle"
+}
