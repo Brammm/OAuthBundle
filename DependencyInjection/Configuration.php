@@ -17,7 +17,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('redirect_uri')
+                ->scalarNode('redirect_path')
                     ->isRequired()
                 ->end()
                 ->arrayNode('providers')
