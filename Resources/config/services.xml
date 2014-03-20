@@ -20,7 +20,7 @@
 
         <service id="brammm_oauth.provider_configurator" class="%brammm_oauth.provider_configurator.class%">
             <argument type="service" id="router" />
-            <argument>%brammm_oauth.login_response_path%</argument>
+            <argument>%brammm_oauth.redirect_path%</argument>
             <argument>%brammm_oauth.providers%</argument>
         </service>
 

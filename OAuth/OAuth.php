@@ -26,6 +26,16 @@ class OAuth
     }
 
     /**
+     * Returns all configured providers
+     *
+     * @return ProviderBase[]
+     */
+    public function getProviders()
+    {
+        return $this->providers;
+    }
+
+    /**
      * @param string            $key
      * @param ProviderBase $provider
      */

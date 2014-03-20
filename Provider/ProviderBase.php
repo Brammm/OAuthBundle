@@ -2,13 +2,15 @@
 
 namespace Brammm\OAuthBundle\Provider;
 
+use Brammm\OAuthBundle\OAuth\OauthResult;
+use Brammm\OAuthBundle\OAuth\OAuthUser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 
 abstract class ProviderBase
 {
     /** @var string */
-    protected $loginResponsePath;
+    protected $redirectPath;
     /** @var array */
     protected $config;
     /** @var RouterInterface */
@@ -41,9 +43,20 @@ abstract class ProviderBase
      *
      * @param Request $request
      *
-     * @return mixed
+     * @throws \Exception
+     * @return OAuthResult
      */
     abstract public function handleLoginResponse(Request $request);
+
+    /**
+     * Retreives an OAuthUser object from the provider
+     *
+     * @param OauthResult $oauthResult
+     *
+     * @throws \Exception
+     * @return OAuthUser
+     */
+    abstract public function getOAuthUser(OauthResult $oauthResult);
 
     ######################
     ## Helper functions ##
@@ -66,7 +79,7 @@ abstract class ProviderBase
      */
     protected function getRedirectUri()
     {
-        return $this->router->generate($this->loginResponsePath, ['provider' => $this->getAlias()], RouterInterface::ABSOLUTE_URL);
+        return $this->router->generate($this->redirectPath, ['provider' => $this->getAlias()], RouterInterface::ABSOLUTE_URL);
     }
 
     // TODO: move this to own class/use existing lib?
@@ -74,6 +87,7 @@ abstract class ProviderBase
      * Calls an url and returns it's response
      *
      * @param string $url
+     * @param array  $headers
      *
      * @return string
      */
@@ -94,11 +108,11 @@ abstract class ProviderBase
     ################
 
     /**
-     * @param $loginResponsePath
+     * @param $redirectPath
      */
-    public function setLoginResponsePath($loginResponsePath)
+    public function setRedirectPath($redirectPath)
     {
-        $this->loginResponsePath = $loginResponsePath;
+        $this->redirectPath = $redirectPath;
     }
 
     /**

@@ -2,14 +2,14 @@
 
 namespace Brammm\OAuthBundle\OAuth;
 
-class OauthResult 
+class OAuthResult
 {
     /** @var string */
     private $accessToken;
     /** @var \DateTime */
     private $expiresAt;
 
-    function __construct($accessToken, \DateTime $expiresAt)
+    public function __construct($accessToken, \DateTime $expiresAt)
     {
         $this->accessToken = $accessToken;
         $this->expiresAt   = $expiresAt;
@@ -30,5 +30,5 @@ class OauthResult
     {
         return $this->expiresAt;
     }
-w
+
 } 

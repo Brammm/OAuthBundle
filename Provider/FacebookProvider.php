@@ -4,7 +4,8 @@ namespace Brammm\OAuthBundle\Provider;
 
 use Brammm\OAuthBundle\Exception\LoginInterruptedException;
 use Brammm\OAuthBundle\Exception\OAuthException;
-use Brammm\OAuthBundle\OAuth\OauthResult;
+use Brammm\OAuthBundle\OAuth\OAuthResult;
+use Brammm\OAuthBundle\OAuth\OAuthUser;
 use Symfony\Component\HttpFoundation\Request;
 
 class FacebookProvider extends ProviderBase
@@ -44,6 +45,7 @@ class FacebookProvider extends ProviderBase
             $exception
                 ->setReason($request->query->get('error_reason'))
                 ->setShortCode($request->query->get('error'));
+            throw $exception;
         }
 
         if (!$request->query->has('code')) {
@@ -73,6 +75,27 @@ class FacebookProvider extends ProviderBase
         $expiresAt = new \DateTime();
         $expiresAt->modify(sprintf('+%d seconds', $responseParameters['expires']));
 
-        return new OauthResult($responseParameters['access_token'], $expiresAt);
+        return new OAuthResult($responseParameters['access_token'], $expiresAt);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOAuthUser(OauthResult $oauthResult)
+    {
+        $url = 'https://graph.facebook.com/me?' . http_build_query(['access_token' => $oauthResult->getAccessToken()]);
+        $response = $this->callUrl($url);
+
+        $json = json_decode($response);
+
+        if (JSON_ERROR_NONE === json_last_error()) {
+            if (isset($json->error)) {
+                throw new OAuthException($json->error->message, $json->error->code);
+            }
+
+            return new OAuthUser($json->id, $json->email, $json->first_name, $json->last_name);
+        }
+
+        throw new \LogicException('Unexpected response: '.$response);
     }
 }

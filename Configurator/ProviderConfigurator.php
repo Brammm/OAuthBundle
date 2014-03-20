@@ -11,14 +11,14 @@ class ProviderConfigurator
     /** @var RouterInterface */
     private $router;
     /** @var string */
-    private $loginResponsePath;
+    private $redirectPath;
     /** @var array */
     private $config;
 
-    public function __construct(RouterInterface $router, $loginResponsePath, array $config)
+    public function __construct(RouterInterface $router, $redirectPath, array $config)
     {
         $this->router            = $router;
-        $this->loginResponsePath = $loginResponsePath;
+        $this->redirectPath      = $redirectPath;
         $this->config            = $config;
     }
 
@@ -29,7 +29,7 @@ class ProviderConfigurator
         }
 
         $provider->setRouter($this->router);
-        $provider->setLoginResponsePath($this->loginResponsePath);
+        $provider->setRedirectPath($this->redirectPath);
         $provider->setConfig($this->config[$provider->getAlias()]);
     }
 } 
