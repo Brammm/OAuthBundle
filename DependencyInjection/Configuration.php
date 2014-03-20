@@ -17,11 +17,15 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->scalarNode('redirect_uri')
+                    ->isRequired()
+                ->end()
                 ->arrayNode('providers')
                     ->prototype('array')
                         ->children()
-                            ->scalarNode('app_id')->end()
-                            ->scalarNode('app_secret')->end()
+                            ->scalarNode('client_id')->end()
+                            ->scalarNode('client_secret')->end()
+                            ->scalarNode('scope')->end()
                         ->end()
                     ->end()
                 ->end()

@@ -3,17 +3,17 @@
 namespace Brammm\OAuthBundle\OAuth;
 
 use Brammm\OAuthBundle\Exception\ProviderNotFoundException;
-use Brammm\OAuthBundle\Provider\ProviderInterface;
+use Brammm\OAuthBundle\Provider\ProviderBase;
 
 class OAuth
 {
-    /** @var ProviderInterface[] */
+    /** @var ProviderBase[] */
     protected $providers;
 
     /**
      * @param string $provider
      *
-     * @return ProviderInterface
+     * @return ProviderBase
      * @throws ProviderNotFoundException
      */
     public function getProvider($provider)
@@ -27,9 +27,9 @@ class OAuth
 
     /**
      * @param string            $key
-     * @param ProviderInterface $provider
+     * @param ProviderBase $provider
      */
-    public function addProvider($key, ProviderInterface $provider)
+    public function addProvider($key, ProviderBase $provider)
     {
         $this->providers[$key] = $provider;
     }

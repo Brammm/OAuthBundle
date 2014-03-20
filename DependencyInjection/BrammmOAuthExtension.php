@@ -23,6 +23,7 @@ class BrammmOAuthExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('brammm_oauth.providers', $config['providers']);
+        $container->setParameter('brammm_oauth.login_response_path', $config['login_response_path']);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');

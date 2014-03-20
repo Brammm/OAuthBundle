@@ -7,15 +7,27 @@
     <parameters>
         <parameter key="brammm_oauth.oauth.class">Brammm\OAuthBundle\OAuth\OAuth</parameter>
         <parameter key="brammm_oauth.provider.facebook.class">Brammm\OAuthBundle\Provider\FacebookProvider</parameter>
+        <parameter key="brammm_oauth.controller.oauth.class">Brammm\OAuthBundle\Controller\OAuthController</parameter>
+        <parameter key="brammm_oauth.provider_configurator.class">Brammm\OAuthBundle\Configurator\ProviderConfigurator</parameter>
     </parameters>
 
     <services>
         <service id="brammm_oauth.oauth" class="%brammm_oauth.oauth.class%" />
 
-        <service id="brammm_oauth.provider.facebook"
-                 class="%brammm_oauth.provider.facebook.class%"
-                 public="false">
+        <service id="brammm_oauth.controller.oauth" class="%brammm_oauth.controller.oauth.class%">
+            <argument type="service" id="brammm_oauth.oauth" />
+        </service>
+
+        <service id="brammm_oauth.provider_configurator" class="%brammm_oauth.provider_configurator.class%">
+            <argument type="service" id="router" />
+            <argument>%brammm_oauth.login_response_path%</argument>
+            <argument>%brammm_oauth.providers%</argument>
+        </service>
+
+        <service id="brammm_oauth.provider.facebook" class="%brammm_oauth.provider.facebook.class%" public="false">
+            <configurator service="brammm_oauth.provider_configurator" method="configure" />
             <tag name="brammm_oauth.provider" provider="facebook"/>
         </service>
+
     </services>
 </container>
